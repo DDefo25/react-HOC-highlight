@@ -38,9 +38,26 @@ function Video(props) {
     )
 };
 
-const WrapVideo = wrapComponent(New, Popular)(Video)
-const WrapArticle = wrapComponent(New, Popular)(Article)
 
+const optionNew = {
+        WrapComponent: New,
+        value: 'views',
+        range: {
+            min: 0,
+            max: 100
+        }
+    }
+const optionPopular = {
+        WrapComponent: Popular,
+        value: 'views',
+        range: {
+            min: 1000,
+            max: Infinity
+        }
+    }
+
+const WrapArticle = wrapComponent(optionNew, optionPopular)(Article)
+const WrapVideo = wrapComponent(optionNew, optionPopular)(Video)
 
 function List(props) {
     return props.list.map(item => {

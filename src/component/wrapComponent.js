@@ -1,26 +1,18 @@
 import React from "react"
 
-export default function wrapComponent(WrapNew, WrapPopular) {
+export default function wrapComponent(...options) {
     return Component => class extends React.Component {
-            render() {
-                if (this.props.views < 100) {
-                    return (
-                        <WrapNew>
-                            <Component {...this.props} />
-                        </WrapNew>
-                    )
-                } else if (this.props.views > 1000) {
-                    return (
-                        <WrapPopular>
-                            <Component {...this.props} />
-                        </WrapPopular>
-                    )
-                } else {
-                    return (
-                        <Component {...this.props} />
-                    )
+        render() {
+            let i = 0;
+            do {
+                const { WrapComponent, value, range: {min, max} } = options[i];
+                if ( this.props[value] >= min && this.props[value] < max ) {
+                    return <WrapComponent>
+                            <Component {...this.props}/>
+                        </WrapComponent>
                 }
-
-            }
+            } while (++i < options.length)
+            return <Component {...this.props}/>
+        }
     }
 }
